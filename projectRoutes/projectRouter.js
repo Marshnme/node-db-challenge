@@ -13,6 +13,15 @@ router.get('/resources', (req,res) => {
 router.get('/tasks', (req,res) => {
     model.findTasks()
     .then(tasks => {
+        console.log("tasks",tasks)
+        const newTasks = tasks.map(i => {
+            if(i.task_completed == 0){
+                i.task_completed = false
+            }else{
+                i.task_completed = true
+            }
+        })
+        console.log("newTasks",newTasks)
         res.status(200).json(tasks);
     })
     .catch(err => res.status(500).json({message:'could not get tasks'}))
@@ -21,6 +30,14 @@ router.get('/tasks', (req,res) => {
 router.get('/', (req,res) => {
     model.findProjects()
     .then(projects => {
+        const newProjects = projects.map(i => {
+            if(i.project_completed == 0){
+                i.project_completed = false
+            }else{
+                i.project_completed = true
+            }
+        })
+        // console.log("newProjects",newProjects)
         res.status(200).json(projects);
     })
     .catch(err => res.status(500).json({message:'could not get projects'}))
